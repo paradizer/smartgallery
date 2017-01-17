@@ -7,7 +7,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-from .models import Images
+from .models import Images, User
 from .forms import ImageForm
 
 
@@ -45,4 +45,26 @@ def home(request):
         request,
         'gallery/index.html',
         {'images': images, 'form': form}
+    )
+
+@login_required
+def profile(request):
+    profile = User.objects.get(id=request.user.id)
+    # Handle file upload
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            newimg = Images(imgfile=request.FILES['docfile'])
+            newimg.user = request.user
+            newimg.save()
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('profile'))
+    else:
+        form = ImageForm()  # A empty, unbound form
+    # Render list page with the documents and the form
+    images = Images.objects.filter(user=request.user.id)
+    return render(
+        request,
+        'gallery/profile.html',
+        {'profile': profile, 'images': images, 'form': form}
     )

@@ -3,10 +3,10 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link href="{% static 'css/style.default.css' %}" rel="stylesheet">
         <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
         <script src="{% static "js/jquery.fancybox.pack.js" %}"></script>
         <link href="{% static 'css/jquery.fancybox.css' %}" rel="stylesheet">
-
         <title>Фотографии</title>
         <style>
             .thumb img  {
@@ -25,34 +25,17 @@
                 });
             });
 	    </script>
-
-
-
     </head>
-
     <body>
-    <div style="padding:10px;margin:10px;border:1px solid #ccc">
-        <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url "index" %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-
-            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-
-            <p>
-                {{ form.docfile.errors }}
-                {{ form.docfile }}
-            </p>
-
-            <p><input type="submit" value="Upload"/></p>
-        </form>
-    </div>
+    <a href="/profile">Profile</a>
+    <br><br>
+    <a href="/logout">Logout</a>
     <p class="thumb">
         <!-- List of uploaded documents -->
         {% if images %}
             {% for img in images %}
                 <a class="fancybox" rel="gallery1" href="{{ img.imgfile.url }}">
-                    <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200">
+                    <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200" title="Загрузил пользователь {{ img.user }}">
                 </a>
             {% endfor %}
         {% else %}

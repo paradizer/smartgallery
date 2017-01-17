@@ -1,10 +1,81 @@
+{% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="{% static 'css/style.default.css' %}" rel="stylesheet">
+        <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+        <script src="{% static "js/jquery.fancybox.pack.js" %}"></script>
+        <link href="{% static 'css/jquery.fancybox.css' %}" rel="stylesheet">
+        <title>Фотографии</title>
+        <style>
+            .thumb img  {
+            border: 2px solid #55c5e9; /* Рамка вокруг фотографии */
+            padding: 5px; /* Расстояние от картинки до рамки */
+            background: #666; /* Цвет фона */
+            margin-right: 10px; /* Отступ справа */
+            margin-bottom: 10px; /* Отступ снизу */
+            }
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".fancybox").fancybox({
+                    openEffect	: 'none',
+                    closeEffect	: 'none'
+                });
+            });
+	    </script>
+    </head>
+    <body>
+    <a href="/">Main page</a>
+    <br><br>
+    <a href="/logout">Logout</a>
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Username</td>
+                <th>{{ profile.username }}</th>
+            </tr>
+            <tr>
+                <td>First name</td>
+                <td>{{ profile.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last name</td>
+                <td>{{ profile.last_name }}</td>
+            </tr>
+            <tr>
+                <td> Email </td>
+                <td> {{ profile.email }} </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="padding:10px;margin:10px;border:1px solid #ccc">
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url "index" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+            <p><input type="submit" value="Upload"/></p>
+        </form>
+    </div>
+    <p class="thumb">
+        <!-- List of uploaded documents -->
+        {% if images %}
+            {% for img in images %}
+                <a class="fancybox" rel="gallery1" href="{{ img.imgfile.url }}">
+                    <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200">
+                </a>
+            {% endfor %}
+        {% else %}
+            <p>No images.</p>
+        {% endif %}
+    </p>
+    </body>
 </html>

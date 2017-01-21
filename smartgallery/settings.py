@@ -25,7 +25,7 @@ SECRET_KEY = 'm36ypap_+do%m9s^ho1#8osf^ape8^@af*cqgbvc*!6bi)6_sa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.59.146.78']
+ALLOWED_HOSTS = ['139.59.146.78', 'r.biotechnology.by', 'biotechnology.by']
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"

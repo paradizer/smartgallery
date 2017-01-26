@@ -54,7 +54,7 @@
     </table>
     <div style="padding:10px;margin:10px;border:1px solid #ccc">
         <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url "index" %}" method="post" enctype="multipart/form-data">
+        <form action="{% url "profile" %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
             <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
@@ -70,7 +70,11 @@
         {% if images %}
             {% for img in images %}
                 <a class="fancybox" rel="gallery1" href="{{ img.imgfile.url }}">
+                {% if img.imgfile_mini %}
+                    <img  src="{{ img.imgfile_mini.url }}" alt="{{ img.imgfile.name }}" height="200">
+                {% else %}
                     <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200">
+                {% endif %}
                 </a>
             {% endfor %}
         {% else %}

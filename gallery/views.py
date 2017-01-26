@@ -11,6 +11,9 @@ from .models import Images, User
 from .forms import ImageForm
 
 
+import io
+from PIL import Image
+
 class RegisterFormView(FormView):
     form_class = UserCreationForm
     # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
@@ -25,9 +28,13 @@ class RegisterFormView(FormView):
         return super(RegisterFormView, self).form_valid(form)
 
 
+
+
+
 @login_required
 def home(request):
     # Handle file upload
+    '''
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
@@ -39,12 +46,15 @@ def home(request):
     else:
         form = ImageForm()  # A empty, unbound form
     # Load documents for the list page
+    '''
     images = Images.objects.all()
     # Render list page with the documents and the form
     return render(
         request,
         'gallery/index.html',
-        {'images': images, 'form': form}
+        {'images': images,
+        #'form': form
+        }
     )
 
 @login_required
@@ -58,7 +68,7 @@ def profile(request):
             newimg.user = request.user
             newimg.save()
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('profile'))
+            #return HttpResponseRedirect(reverse('profile'))
     else:
         form = ImageForm()  # A empty, unbound form
     # Render list page with the documents and the form
@@ -68,3 +78,7 @@ def profile(request):
         'gallery/profile.html',
         {'profile': profile, 'images': images, 'form': form}
     )
+
+
+
+

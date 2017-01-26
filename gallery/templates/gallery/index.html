@@ -35,7 +35,11 @@
         {% if images %}
             {% for img in images %}
                 <a class="fancybox" rel="gallery1" href="{{ img.imgfile.url }}">
-                    <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200" title="Загрузил пользователь {{ img.user }}">
+                {% if img.imgfile_mini %}
+                    <img  src="{{ img.imgfile_mini.url }}" alt="{{ img.imgfile.name }}" height="200">
+                {% else %}
+                    <img  src="{{ img.imgfile.url }}" alt="{{ img.imgfile.name }}" height="200">
+                {% endif %}
                 </a>
             {% endfor %}
         {% else %}
